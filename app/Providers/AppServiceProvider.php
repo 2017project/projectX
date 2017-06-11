@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Common\Business\Repositories\UserRepositories;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        app()->bind('IUserRepository', function() {
+            return new UserRepositories();
+        });
     }
 
     /**
