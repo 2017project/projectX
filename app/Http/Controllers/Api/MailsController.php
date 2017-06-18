@@ -8,12 +8,13 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Common\Model\Mail;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class MailsController extends Controller
 {
     public function __construct()
     {
-//        $this->middleware('auth:api');
+        $this->middleware('jwt.auth');
     }
 
     public function sendMail(Request $request)
