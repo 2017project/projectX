@@ -18,10 +18,10 @@ class CreateTableMail extends Migration
             $table->integer('sender_id');
             $table->string('title')->nullable();
             $table->text('content');
-            $table->boolean('hasAttachment');
-            $table->date('send_date')->nullable();
-            $table->integer('status');
-            $table->integer('type');
+            $table->integer('attach_id')->nullable();
+            $table->date('send_date');
+            $table->integer('status')->nullable();
+            $table->integer('type')->nullable();
             
             $table->timestamps();
         });

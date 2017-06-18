@@ -2,11 +2,18 @@
 
 namespace App\Providers;
 
-use App\Common\Business\Repositories\UserRepositories;
+use App\Common\Business\Repositories\MailRepository;
+use App\Common\Business\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    protected $repositories = [
+        'IUserRepository' => UserRepository::class,
+        'IMailRepository' => MailRepository::class,
+
+    ];
+
     /**
      * Bootstrap any application services.
      *
@@ -14,9 +21,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        app()->bind('IUserRepository', function() {
-            return new UserRepositories();
-        });
+
+        foreach ($this->repositories as $key => $repository) {
+            app()->bind($key, function () use ($repository) {
+                return new $repository();
+            });
+        }
     }
 
     /**

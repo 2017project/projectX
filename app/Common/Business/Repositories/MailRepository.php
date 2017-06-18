@@ -5,12 +5,12 @@ namespace App\Common\Business\Repositories;
 use App\Common\Business\Constracts\IMailsRepository;
 use App\Common\Model\Mail;
 
-class MailsRepositories implements IMailsRepository
+class MailRepository implements IMailsRepository
 {
     public function saveMail($mail)
     {
         try {
-            
+            $mail->save();
         } catch (\Exception $exception) {
 
         }

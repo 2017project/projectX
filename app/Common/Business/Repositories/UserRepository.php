@@ -5,7 +5,7 @@ namespace App\Common\Business\Repositories;
 use App\Common\Business\Constracts\IUserRepository;
 use App\Common\Model\User;
 
-class UserRepositories implements IUserRepository
+class UserRepository implements IUserRepository
 {
     /**
      * @param User $user

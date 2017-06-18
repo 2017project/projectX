@@ -6,8 +6,8 @@ class AuthDelegate
 {
     public function registerUser($user)
     {
-        $userRepository = app()->make('IUserRepository');
-
-        return $userRepository->registerUser($user);
+        $user->save();
+        //
+        return $user;
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Common\Model;
 
-use Illuminate\Notifications\Notifiable;
 
-class UserMail
+use Illuminate\Database\Eloquent\Model;
+
+class UserMail extends Model
 {
-    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -14,7 +14,7 @@ class UserMail
      * @var array
      */
     protected $fillable = [
-        'sender_id', 'receiver_id', 'mail_id', 'send_date', 'title', 'status', 'type', 'mark'
+        'sender_id', 'receiver_id', 'mail_id', 'send_date', 'title', 'type', 'mark'
     ];
 
     /**

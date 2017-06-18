@@ -19,9 +19,8 @@ class CreateTableUserMail extends Migration
             $table->integer('mail_id');
             $table->string('title')->nullable();
             $table->date('send_date');
-            $table->integer('status');
-            $table->integer('type');
-            $table->integer('mark');
+            $table->integer('type')->nullable();
+            $table->integer('mark')->nullable();
             
             $table->timestamps();
         });

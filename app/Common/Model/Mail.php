@@ -2,11 +2,10 @@
 
 namespace App\Common\Model;
 
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
-class Mail
+class Mail extends Model
 {
-    use Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -25,4 +24,9 @@ class Mail
     protected $hidden = [
         
     ];
+
+    public function listSent()
+    {
+        return $this->hasMany(UserMail::class, 'mail_id');
+    }
 }
