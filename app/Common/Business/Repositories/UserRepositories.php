@@ -3,7 +3,7 @@
 namespace App\Common\Business\Repositories;
 
 use App\Common\Business\Constracts\IUserRepository;
-use App\User;
+use App\Common\Model\User;
 
 class UserRepositories implements IUserRepository
 {

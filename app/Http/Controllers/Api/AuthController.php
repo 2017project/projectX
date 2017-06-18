@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Common\Delegate\AuthDelegate;
-use App\User;
+use App\Common\Model\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 

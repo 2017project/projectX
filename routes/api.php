@@ -22,5 +22,7 @@ Route::group(['namespace' => 'Api'], function() {
     Route::post('/register', 'AuthController@register');
 
     Route::get('/profiles', 'ProfilesController@index')->name(RouteConsts::$PROFILES_GET_ALL);
+
+    Route::post('/mails/send', 'MailsController@sendMail')->name(RouteConsts::$MAILS_SEND);
 });
 
