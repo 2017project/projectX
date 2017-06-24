@@ -13,7 +13,7 @@ class Mail extends Model
      * @var array
      */
     protected $fillable = [
-        'mail_id', 'sender_id', 'title', 'content', 'attach_id', 'send_date', 'status', 'type'
+        'mail_id', 'sender_id', 'title', 'content', 'attach_id', 'sent_date', 'status', 'type'
     ];
 
     /**
@@ -28,5 +28,10 @@ class Mail extends Model
     public function listSent()
     {
         return $this->hasMany(UserMail::class, 'mail_id');
+    }
+
+    public function addMailDetail($attributes)
+    {
+        $this->listSent()->create($attributes);
     }
 }

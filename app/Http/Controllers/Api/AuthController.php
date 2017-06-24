@@ -51,7 +51,7 @@ class AuthController extends Controller
         // if no errors are encountered we can return a JWT
         return response()->json([
             'user' => [
-                'token' => $token
+                'token' => $toke
             ]
         ], 200);
     }

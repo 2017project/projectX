@@ -14,7 +14,7 @@ class MailsDelegate
     public function sendMail($mail, $toReceivers)
     {
         $results = [
-            'successCount' => 0,
+            'success_count' => 0,
             'errors' => []
         ];
         // luu vao bang mail
@@ -24,13 +24,13 @@ class MailsDelegate
             // luu nhieu item vao user_mail
             foreach ($toReceivers as $receiver) {
                 try {
-                    $mail->listSent()->create([
+                    $mail->addMailDetail([
                         'sender_id' => $mail->sender_id,
                         'receiver_id' => $receiver,
-                        'send_date' => $mail->send_date,
+                        'sent_date' => $mail->sent_date,
                         'title' => $mail->title,
                     ]);
-                    $results['successCount']++;
+                    $results['success_count']++;
                 } catch (\Exception $exception) {
                     throw $exception;
                     $results['errors'][] = $receiver;

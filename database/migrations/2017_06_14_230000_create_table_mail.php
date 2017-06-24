@@ -19,7 +19,7 @@ class CreateTableMail extends Migration
             $table->string('title')->nullable();
             $table->text('content');
             $table->integer('attach_id')->nullable();
-            $table->date('send_date');
+            $table->date('sent_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('status')->nullable();
             $table->integer('type')->nullable();
             

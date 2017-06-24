@@ -22,12 +22,12 @@ class MailsController extends Controller
         // nhan du lieu tu nguoi dung
         // 1. Thong tin main
         $mail = new Mail([
-            'sender_id' => "1",
+            'sender_id' => $this->getAuthorizedUser()->id,
             'title' => $request->input('title'),
             'content' => $request->input('content'),
             'attach_id' => $request->input('attach_id'),
             'type' => $request->input('type'),
-            'send_date' => Carbon::now()
+            'sent_date' => time()
         ]);
         // 2. Thong tin luu vao user_mail
         // bao gom receiver_ids
