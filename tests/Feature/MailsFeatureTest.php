@@ -25,6 +25,7 @@ class MailsFeatureTest extends TestCase
         $mail = make('App\Common\Model\Mail', ['sender_id' => $user->id]);
 
         $payload = array_merge($mail->toArray(), ['receiver_ids' => [$receiver->id]]);
+
         $this
             ->post(route(RouteConsts::$MAILS_SEND), $payload, [
                 'AUTHORIZATION' => 'Bearer ' . $token

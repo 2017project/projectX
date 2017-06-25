@@ -2,10 +2,7 @@
 
 namespace App\Common\Model;
 
-
-use Illuminate\Database\Eloquent\Model;
-
-class UserMail extends Model
+class UserMail extends GNModel
 {
 
     /**

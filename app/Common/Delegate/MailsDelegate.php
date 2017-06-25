@@ -7,7 +7,7 @@ use App\Common\Constants\ApplicationCommonConsts;
 class MailsDelegate
 {
     /**
-     * @param $mail App\Common\Model\Mail
+     * @param $mail \App\Common\Model\Mail
      * @param $toReceivers
      * @return array
      */

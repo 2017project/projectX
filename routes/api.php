@@ -19,8 +19,9 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['namespace' => 'Api'], function() {
-    Route::post('/register', 'AuthController@register');
-    Route::post('/login', 'AuthController@login');
+    Route::post('/register', 'AuthController@register')->name(RouteConsts::$REGISTER);
+    Route::post('/login', 'AuthController@login')->name(RouteConsts::$LOGIN);
+    Route::post('/logout', 'AuthController@logout')->name(RouteConsts::$LOGOUT);
 
     Route::get('/profiles', 'ProfilesController@index')->name(RouteConsts::$PROFILES_GET_ALL);
 

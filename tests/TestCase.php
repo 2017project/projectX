@@ -20,8 +20,10 @@ abstract class TestCase extends BaseTestCase
         return array($user, JWTAuth::fromUser($user));
     }
 
-    protected function parseAuthenticatedUser()
+    protected function authorizationHeader($token)
     {
-
+        return [
+            'Authorization' => 'Bearer ' . $token,
+        ];
     }
 }
