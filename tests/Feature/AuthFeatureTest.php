@@ -35,14 +35,27 @@ class AuthFeatureTest extends TestCase
     /** @test */
     public function authorized_user_can_log_out()
     {
-        list($user, $token) = $this->authorizeUser();
+        // Arrange
+        $user = create('App\Common\Model\User');
+        $token = JWTAuth::fromUser($user);
         $payload = JWTAuth::getPayload($token);
+        $headers = ['AUTHORIZATION' => 'Bearer ' . $token];
 
-        $this
-            ->post(route(RouteConsts::$LOGOUT), [], $this->authorizationHeader($token))
-        ;
+        // Assert
+        $this->post(route(RouteConsts::$LOGOUT), [], $headers);
+//            ->seeHeader('Authorization', '');
 
+        // Verify on the back-end that the token is blacklisted
         $this->assertTrue(JWTAuth::getBlacklist()->has($payload));
 
+//        list($user, $token) = $this->authorizeUser();
+//        $token = JWTAuth::fromUser($user);
+//        $payload = JWTAuth::getPayload($token);
+//
+//        $this
+//            ->post(route(RouteConsts::$LOGOUT), [], $this->authorizationHeader($token))
+//        ;
+//        dd(JWTAuth::getBlacklist()->has($payload));
+//        $this->assertTrue(JWTAuth::getBlacklist()->has($payload));
     }
 }

@@ -26,4 +26,5 @@ abstract class TestCase extends BaseTestCase
             'Authorization' => 'Bearer ' . $token,
         ];
     }
+
 }

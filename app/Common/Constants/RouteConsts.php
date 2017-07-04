@@ -16,4 +16,6 @@ class RouteConsts
     public static $PROFILES_GET_ALL = '/profiles';
 
     public static $MAILS_SEND = '/mails/send';
+
+    public static $USERS_INDEX = '/users';
 }

@@ -14,7 +14,6 @@ class AuthController extends Controller
 {
     public function register()
     {
-        dd('hit');
         $user = new User([
             'username' => request('username'),
             'password' => bcrypt(request('password')),
@@ -59,8 +58,9 @@ class AuthController extends Controller
     {
         $user = $this->getAuthorizedUser();
         $token = JWTAuth::getToken();
+        $payload = JWTAuth::getPayload($token);
         JWTAuth::invalidate(JWTAuth::getToken());
-
+//        dd(JWTAuth::getBlacklist()->has($payload));
         return response()->accepted()->header('Authorization', '');
         return response()->json([
             'message' => 'Logout successfully'
