@@ -2,7 +2,8 @@
 
 namespace App\Common\Delegate;
 
-use App\Common\Constants\ApplicationCommonConsts;
+use App\Common\Filters\MailFilters;
+use App\Common\Model\UserMail;
 
 class MailsDelegate
 {
@@ -46,5 +47,18 @@ class MailsDelegate
         }
 
         return $results;
+    }
+
+    /**
+     * @param String userId
+     * @param $filter: destination, mark, dateFrom, dateTo, username, phrase, itemsPerPage
+     * @return array UserMail
+     */
+    public function getMailBox(MailFilters $mailFilters) {
+        $mailBox = UserMail::filter($mailFilters);
+
+        $mailBox = $mailBox->get();
+
+        return $mailBox;
     }
 }

@@ -10,6 +10,9 @@ use App\Http\Controllers\Controller;
 use App\Common\Model\Mail;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
+use App\Common\Filters\MailFilters;
+use App\Http\Requests\GetMailsRequest;
+
 class MailsController extends Controller
 {
     public function __construct()
@@ -39,5 +42,37 @@ class MailsController extends Controller
 
         // phan hoi
         return response()->json($sentMailInfo, 200);
+    }
+
+    public function getMailBox(GetMailsRequest $request, MailFilters $mailFilters) {        
+        $userId = $this->getAuthorizedUser()->id;
+
+        $delegate = new MailsDelegate();
+
+        $mailBox = $delegate->getMailBox($mailFilters);
+
+        $result = [
+            'nbMails' => 0,
+            'mails' => []
+        ];
+
+        $count = 0;
+
+        foreach($mailBox as $aMail) {
+            $element = [
+                'sender' => $aMail->sender->username,
+                'mail' => $aMail->mail_id,
+                'title' => $aMail->title,
+                'sent_date' => $aMail->sent_date,
+                'mark' => $aMail->mark
+            ];
+
+            $result['mails'] = array_add($result['mails'], $count, $element);
+
+            $result['nbMails']++;
+            $count++;
+        }
+
+        return response()->json($result, 200);
     }
 }

@@ -12,7 +12,7 @@ class Mail extends GNModel
      * @var array
      */
     protected $fillable = [
-        'mail_id', 'sender_id', 'title', 'content', 'attach_id', 'sent_date', 'status', 'type'
+        'sender_id', 'title', 'content', 'attach_id', 'sent_date', 'status', 'type'
     ];
 
     /**
