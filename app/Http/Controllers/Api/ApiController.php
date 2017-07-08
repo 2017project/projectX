@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Common\Constants\HttpStatusCodeConsts;
 use App\Common\Transformers\Transformer;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Collection;
 use Mockery\Exception;
 
 class ApiController extends Controller
@@ -28,14 +29,13 @@ class ApiController extends Controller
      * @param array $headers
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithTransformer($data, $statusCode, $headers = [])
+    protected function respondWithTransformer($data, $statusCode = 200, $headers = [])
     {
         $this->checkTransform();
-
         if ($data instanceof Collection) {
-            $data = $this->transform->collection($data);
+            $data = $this->transformer->collection($data);
         } else {
-            $data = $this->transform->item($data);
+            $data = $this->transformer->item($data);
         }
         return $this->respond($data, $statusCode, $headers);
     }

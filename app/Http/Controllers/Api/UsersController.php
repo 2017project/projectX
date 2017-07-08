@@ -17,8 +17,11 @@ class UsersController extends ApiController
     }
     public function index(UserFilters $filters, Pagination $pagination)
     {
-        $users = User::filter($filters)->pagination($pagination);
+        $users = User::all(); //filter($filters); //->pagination($pagination);
+//        $users = User::filter($filters)->pagination($pagination);
 
-        return $this->respondWithPagination($pagination);
+//        return $this->respondWithPagination($pagination);
+        return $this->respondWithTransformer($users);
+//        return $this->respond($users);
     }
 }
