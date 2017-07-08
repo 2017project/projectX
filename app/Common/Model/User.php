@@ -31,4 +31,9 @@ class User extends Authenticatable
     {
         return $filter->apply($query);
     }
+
+    public function scopePagination($query, $pagination)
+    {
+        return $pagination->apply($query);
+    }
 }

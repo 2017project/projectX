@@ -9,4 +9,9 @@ abstract class GNModel extends Model
     {
         return $filter->apply($query);
     }
+
+    public function scopePagination($query, $pagination)
+    {
+        return $pagination->apply($query);
+    }
 }

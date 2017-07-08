@@ -13,5 +13,5 @@ class HttpStatusCodeConsts
     public static $UNAUTHORIZED_401 = 401;
     public static $BAD_REQUEST_400 = 400;
 
-    public static $OK = 200;
+    public static $OK_200 = 200;
 }
