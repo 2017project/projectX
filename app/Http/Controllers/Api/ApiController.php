@@ -107,6 +107,17 @@ class ApiController extends Controller
     }
 
     /**
+     * Respond with internal error.
+     *
+     * @param string $message
+     * @return \Illuminate\Http\JsonResponse
+     */
+    protected function respondInternalError($message = 'Internal Error')
+    {
+        return $this->respondError($message, 500);
+    }
+
+    /**
      * @return \Illuminate\Http\JsonResponse
      */
     protected function respondFailedLogin()

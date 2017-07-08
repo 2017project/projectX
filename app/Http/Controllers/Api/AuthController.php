@@ -2,16 +2,23 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Common\Constants\HttpStatusCodeConsts;
 use App\Common\Delegate\AuthDelegate;
 use App\Common\Model\User;
+use App\Common\Transformers\UserTransformer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Mockery\Exception;
 use Tymon\JWTAuth\Exceptions\JWTException;
 use Tymon\JWTAuth\Facades\JWTAuth;
 
-class AuthController extends Controller
+class AuthController extends ApiController
 {
+    function __construct(UserTransformer $transformer)
+    {
+        $this->transformer = $transformer;
+    }
+
     public function register()
     {
         $user = new User([
@@ -27,9 +34,9 @@ class AuthController extends Controller
 
         $delegate->registerUser($user);
 
-        return response()->json([
+        return $this->respond([
             'token' => JWTAuth::fromUser($user)
-        ], 200);
+        ]);
     }
 
     public function login(Request $request)
@@ -39,29 +46,25 @@ class AuthController extends Controller
         try {
             // verify the credentials and create a token for the user
             if (!$token = JWTAuth::attempt($credentials)) {
-                return response()->json(['error' => 'invalid_credentials'], 401);
+                return $this->respondFailedLogin();
             }
         } catch (JWTException $e) {
             // something went wrong
-            return response()->json(['error' => 'could_not_create_token'], 500);
+            return $this->respondInternalError('Could not create token');
         }
 
         // if no errors are encountered we can return a JWT
-        return response()->json([
-            'user' => [
-                'token' => $token
-            ]
-        ], 200);
+        return $this->respond([
+            'token' => $token
+        ]);
     }
 
     public function logout()
     {
-        $user = $this->getAuthorizedUser();
         $token = JWTAuth::getToken();
         $payload = JWTAuth::getPayload($token);
-        JWTAuth::invalidate(JWTAuth::getToken());
+        JWTAuth::invalidate($token);
 //        dd(JWTAuth::getBlacklist()->has($payload));
-        return response()->accepted()->header('Authorization', '');
         return response()->json([
             'message' => 'Logout successfully'
         ], 200);

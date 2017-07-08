@@ -28,5 +28,6 @@ Route::group(['namespace' => 'Api'], function() {
     Route::post('/mails/send', 'MailsController@sendMail')->name(RouteConsts::$MAILS_SEND);
 
     Route::post('/users', 'UsersController@index')->name(RouteConsts::$USERS_INDEX);
-});
 
+    Route::post('/mails/mailbox', 'MailsController@getMailBox')->name(RouteConsts::$MAILS_MAILBOX);
+});

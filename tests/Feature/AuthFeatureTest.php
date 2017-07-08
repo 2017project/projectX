@@ -2,10 +2,7 @@
 
 namespace Tests\Feature;
 
-use App\Common\Constants\HttpStatusCodeConsts;
 use App\Common\Constants\RouteConsts;
-use Illuminate\Routing\Route;
-use Namshi\JOSE\JWT;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tymon\JWTAuth\Facades\JWTAuth;
@@ -43,19 +40,8 @@ class AuthFeatureTest extends TestCase
 
         // Assert
         $this->post(route(RouteConsts::$LOGOUT), [], $headers);
-//            ->seeHeader('Authorization', '');
 
         // Verify on the back-end that the token is blacklisted
         $this->assertTrue(JWTAuth::getBlacklist()->has($payload));
-
-//        list($user, $token) = $this->authorizeUser();
-//        $token = JWTAuth::fromUser($user);
-//        $payload = JWTAuth::getPayload($token);
-//
-//        $this
-//            ->post(route(RouteConsts::$LOGOUT), [], $this->authorizationHeader($token))
-//        ;
-//        dd(JWTAuth::getBlacklist()->has($payload));
-//        $this->assertTrue(JWTAuth::getBlacklist()->has($payload));
     }
 }

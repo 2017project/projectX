@@ -9,7 +9,7 @@ class UserTransformer extends Transformer
     public function transform($data)
     {
         return [
-            'username' => $this->getValueForKey($data, 'username')
+            'username' => $this->getValueForKey($data, 'username'),
         ];
     }
 }

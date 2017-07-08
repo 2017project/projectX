@@ -14,14 +14,15 @@ class CreateTableMail extends Migration
     public function up()
     {
         Schema::create('mails', function (Blueprint $table) {
-            $table->increments('mail_id');
+            $table->increments('id');
             $table->integer('sender_id');
             $table->string('title')->nullable();
             $table->text('content');
             $table->integer('attach_id')->nullable();
-            $table->date('sent_date')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('sent_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('status')->nullable();
             $table->integer('type')->nullable();
+            $table->integer('thread')->nullable();
             
             $table->timestamps();
         });

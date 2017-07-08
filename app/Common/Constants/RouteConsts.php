@@ -18,4 +18,6 @@ class RouteConsts
     public static $MAILS_SEND = '/mails/send';
 
     public static $USERS_INDEX = '/users';
+
+    public static $MAILS_MAILBOX = '/mails/mailbox';
 }
