@@ -19,11 +19,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group(['namespace' => 'Api'], function() {
+    // Authentication
     Route::post('/register', 'AuthController@register')->name(RouteConsts::$REGISTER);
     Route::post('/login', 'AuthController@login')->name(RouteConsts::$LOGIN);
     Route::post('/logout', 'AuthController@logout')->name(RouteConsts::$LOGOUT);
 
+    // Profiles
     Route::get('/profiles', 'ProfilesController@index')->name(RouteConsts::$PROFILES_GET_ALL);
+
 
     Route::post('/mails/send', 'MailsController@sendMail')->name(RouteConsts::$MAILS_SEND);
 

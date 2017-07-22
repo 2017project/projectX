@@ -6,8 +6,13 @@ class AuthDelegate
 {
     public function registerUser($user)
     {
-        $user->save();
-        //
+        try {
+            $user->save();
+        } catch (\Exception $exception) {
+//            dd($exception->getMessage());
+            throw $exception;
+        }
+
         return $user;
     }
 }

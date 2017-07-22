@@ -12,6 +12,7 @@ class HttpStatusCodeConsts
     public static $FORBIDDEN_403 = 403;
     public static $UNAUTHORIZED_401 = 401;
     public static $BAD_REQUEST_400 = 400;
+    public static $UNPROCESSABLE_ENTITY_422 = 422;
 
     public static $OK_200 = 200;
 }

@@ -67,9 +67,10 @@ abstract class Transformer
      * Apply the transformation.
      *
      * @param $data
+     * @param null $option
      * @return mixed
      */
-    public abstract function transform($data);
+    public abstract function transform($data, $option = null);
 
     protected function getValueForKey($data, $key)
     {

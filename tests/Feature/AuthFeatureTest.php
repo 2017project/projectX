@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Common\Constants\HttpStatusCodeConsts;
 use App\Common\Constants\RouteConsts;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -18,18 +19,24 @@ class AuthFeatureTest extends TestCase
     {
         $user = make('App\Common\Model\User');
 
-        $this
-            ->post(route(RouteConsts::$REGISTER), $user->toArray())
-            ->assertStatus(200)
+        $response = $this
+            ->post(route(RouteConsts::$REGISTER), ['user' => $user->toArray()])
+            ->assertStatus(HttpStatusCodeConsts::$OK_200)
             ->assertJsonStructure([
-                'token'
-            ]);
+                'token',
+                'user'
+            ])
         ;
 
-        $this->assertDatabaseHas('users', $user->toArray());
+        $this
+            ->assertDatabaseHas('users', $user->toArray())
+            ->assertTrue(count(explode('.', $response->json()['token'])) ===  3)
+            ;
     }
 
-    /** @test */
+    /**
+     * POST /logout
+     * @test */
     public function authorized_user_can_log_out()
     {
         // Arrange
@@ -43,5 +50,51 @@ class AuthFeatureTest extends TestCase
 
         // Verify on the back-end that the token is blacklisted
         $this->assertTrue(JWTAuth::getBlacklist()->has($payload));
+    }
+
+    /**
+     * POST /login
+     * @test */
+    public function guest_can_log_in_valid()
+    {
+        $user = create('App\Common\Model\User', [
+            'password' => bcrypt('123456')
+        ]);
+        $credentials = [
+            'email' => $user->email,
+            'password' => '123456'
+        ];
+
+        $resposne = $this->post(route(RouteConsts::$LOGIN, $credentials, ['Content-Type' => 'application/json']))
+            ->assertStatus(HttpStatusCodeConsts::$OK_200)
+            ->assertJsonStructure([
+                'token'
+            ]);
+        // valid token
+        $this->assertTrue(count(explode('.', $resposne->json()['token'])) === 3);
+    }
+
+    /**
+     * POST /login
+     * @test */
+    public function guest_can_log_in_invalid()
+    {
+        $user = create('App\Common\Model\User', [
+            'password' => bcrypt('123456')
+        ]);
+
+        $credentials = [
+            'email' => $user->email,
+            'password' => 'wrong'
+        ];
+
+        $this->post(route(RouteConsts::$LOGIN, $credentials, ['Content-Type' => 'application/json']))
+            ->assertStatus(HttpStatusCodeConsts::$UNPROCESSABLE_ENTITY_422)
+            ->assertJson([
+                'errors' => [
+                    'email or password' => 'is invalid',
+                ]
+            ]);
+
     }
 }

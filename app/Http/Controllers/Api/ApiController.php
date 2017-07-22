@@ -126,7 +126,7 @@ class ApiController extends Controller
             'errors' => [
                 'email or password' => 'is invalid',
             ]
-        ], 422);
+        ], HttpStatusCodeConsts::$UNPROCESSABLE_ENTITY_422);
     }
 
     /**
