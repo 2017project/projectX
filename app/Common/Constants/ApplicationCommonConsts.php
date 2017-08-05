@@ -31,4 +31,6 @@ class ApplicationCommonConsts
 
     public static $MAIL_FILTER_ITEMS_PER_PAGE_ALL = -1;
     // ************************************************* //
+
+    public static $MAIL_THREAD_DEFAULT = -1;
 }

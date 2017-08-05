@@ -4,6 +4,8 @@ namespace App\Common\Delegate;
 
 use App\Common\Filters\MailFilters;
 use App\Common\Model\UserMail;
+use App\Common\Model\Thread;
+use App\Common\Constants\ApplicationCommonConsts;
 
 class MailsDelegate
 {
@@ -18,6 +20,20 @@ class MailsDelegate
             'success_count' => 0,
             'errors' => []
         ];
+
+        try {
+            if ($mail->thread_id == ApplicationCommonConsts::$MAIL_THREAD_DEFAULT) {
+                $thread = new Thread();
+
+                $thread->save();
+
+                $mail->thread_id = $thread->id;
+            }
+        }
+        catch(\Exception $exception) {
+            throw $exception;
+        }
+
         // luu vao bang mail
         try {
             $mail->save();
@@ -50,15 +66,38 @@ class MailsDelegate
     }
 
     /**
-     * @param String userId
-     * @param $filter: destination, mark, dateFrom, dateTo, username, phrase, itemsPerPage
+     * @param $filter: destination, mark, dateFrom, dateTo, username, phrase
      * @return array UserMail
      */
     public function getMailBox(MailFilters $mailFilters) {
         $mailBox = UserMail::filter($mailFilters);
 
+        // $mailBox = $mailBox->with(['sender' => function ($query) {
+        //                 $query->select('username');
+        //             }]);
+
         $mailBox = $mailBox->get();
 
         return $mailBox;
+    }
+
+    // public function getMailThread($userId, $thread) {
+    //     $query = UserMail::where('sender_id', $userId)
+    //                 ->where('receiver_id', $userId)
+    //                 ->whereHas('mail', function($query) use ($thread) {
+    //                     $query->where('thread', $thread);
+    //                 });
+
+    //     return $query->get();
+    // }
+
+    public function getMailThread($userId, $thread) {
+        $query = Mail::where('thread', $thread)
+                    ->whereHas('listSent', function($query) use ($userId) {
+                        $query->where('sender_id', $userId)
+                                ->orWhere('receiver_id', $userId);
+                    });
+
+        return $query->get();
     }
 }

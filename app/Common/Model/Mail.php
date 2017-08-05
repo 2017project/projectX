@@ -12,7 +12,7 @@ class Mail extends GNModel
      * @var array
      */
     protected $fillable = [
-        'sender_id', 'title', 'content', 'attach_id', 'sent_date', 'status', 'type'
+        'sender_id', 'title', 'content', 'attach_id', 'sent_date', 'status', 'type', 'thread_id'
     ];
 
     /**
@@ -32,5 +32,13 @@ class Mail extends GNModel
     public function addMailDetail($attributes)
     {
         $this->listSent()->create($attributes);
+    }
+
+    public function sender() {
+        return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    public function thread() {
+        return $this->belongsTo(Thread::class, 'thread_id');
     }
 }

@@ -25,7 +25,15 @@ $factory->define(App\Common\Model\User::class, function (Faker\Generator $faker)
     ];
 });
 
+$factory->define(App\Common\Model\Thread::class, function (Faker\Generator $faker) {
+
+    return [
+        'name' => $faker->title
+    ];
+});
+
 $factory->define(App\Common\Model\Mail::class, function (Faker\Generator $faker) {
+    $threadId = factory(App\Common\Model\Thread::class)->create()->id;
 
     return [
         'sender_id' => function() {
@@ -33,7 +41,8 @@ $factory->define(App\Common\Model\Mail::class, function (Faker\Generator $faker)
         },
         'title' => $faker->title,
         'content' => $faker->paragraph,
-        'sent_date' => date('Y-m-d')
+        'sent_date' => date('Y-m-d'),
+        'thread_id' => $threadId
     ];
 });
 

@@ -20,10 +20,14 @@ abstract class Transformer
      * @param Collection $data
      * @return array
      */
-    public function collection(Collection $data)
+    public function collection(Collection $data, $type)
     {
         return [
-            str_plural($this->resourceName) => $data->map([$this, 'transform'])
+            //str_plural($this->resourceName) => $data->map([$this, 'transform'])
+            'nbItems' => $data->count(),
+            str_plural($this->resourceName) => $data->map(function($item) use($type) {
+                return $this->transform($item, $type);
+            })
         ];
     }
 
@@ -33,10 +37,10 @@ abstract class Transformer
      * @param $data
      * @return array
      */
-    public function item($data)
+    public function item($data, $type)
     {
         return [
-            $this->resourceName => $this->transform($data)
+            $this->resourceName => $this->transform($data, $type)
         ];
     }
 
@@ -70,8 +74,9 @@ abstract class Transformer
      * @param null $option
      * @return mixed
      */
-    public abstract function transform($data, $option = null);
 
+    public abstract function transform($data, $option = null);
+    
     protected function getValueForKey($data, $key)
     {
         $keys = explode('.', $key);

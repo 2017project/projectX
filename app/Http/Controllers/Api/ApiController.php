@@ -29,13 +29,13 @@ class ApiController extends Controller
      * @param array $headers
      * @return \Illuminate\Http\JsonResponse
      */
-    protected function respondWithTransformer($data, $statusCode = 200, $headers = [])
+    protected function respondWithTransformer($data, $type, $statusCode = 200, $headers = [])
     {
         $this->checkTransform();
         if ($data instanceof Collection) {
-            $data = $this->transformer->collection($data);
+            $data = $this->transformer->collection($data, $type);
         } else {
-            $data = $this->transformer->item($data);
+            $data = $this->transformer->item($data, $type);
         }
         return $this->respond($data, $statusCode, $headers);
     }

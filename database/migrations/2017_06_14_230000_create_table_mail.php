@@ -22,7 +22,7 @@ class CreateTableMail extends Migration
             $table->timestamp('sent_date')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->integer('status')->nullable();
             $table->integer('type')->nullable();
-            $table->integer('thread')->nullable();
+            $table->integer('thread_id');
             
             $table->timestamps();
         });

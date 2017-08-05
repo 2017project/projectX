@@ -25,7 +25,9 @@ class MailsFeatureTest extends TestCase
 
         $receiver = create('App\Common\Model\User');
 
-        $mail = make('App\Common\Model\Mail', ['sender_id' => $user->id]);
+        $mail = make('App\Common\Model\Mail', 
+                            ['sender_id' => $user->id,
+                            'thread_id' => ApplicationCommonConsts::$MAIL_THREAD_DEFAULT]);
 
         $payload = array_merge($mail->toArray(), ['receiver_ids' => [$receiver->id]]);
 
@@ -48,7 +50,9 @@ class MailsFeatureTest extends TestCase
         $receiver1 = create('App\Common\Model\User');
         $receiver2 = create('App\Common\Model\User');
 
-        $mail = make('App\Common\Model\Mail', ['sender_id' => $user->id]);
+        $mail = make('App\Common\Model\Mail', 
+                            ['sender_id' => $user->id,
+                            'thread_id' => ApplicationCommonConsts::$MAIL_THREAD_DEFAULT]);
 
         $payload = array_merge($mail->toArray(), [
                 'receiver_ids' => [$receiver1->id, $receiver2->id]
@@ -81,10 +85,18 @@ class MailsFeatureTest extends TestCase
         $sender1 = create('App\Common\Model\User');
         $sender2 = create('App\Common\Model\User');
         $sender3 = create('App\Common\Model\User');
+
+        $thread = create('App\Common\Model\Thread');
         
-        $mail1 = create('App\Common\Model\Mail', ['sender_id' => $sender1->id]);
-        $mail2 = create('App\Common\Model\Mail', ['sender_id' => $sender2->id]);
-        $mail3 = create('App\Common\Model\Mail', ['sender_id' => $sender3->id]);
+        $mail1 = create('App\Common\Model\Mail', 
+                                ['sender_id' => $sender1->id,
+                                'thread_id' => $thread->id]);
+        $mail2 = create('App\Common\Model\Mail', 
+                                ['sender_id' => $sender2->id,
+                                'thread_id' => $thread->id]);
+        $mail3 = create('App\Common\Model\Mail', 
+                                ['sender_id' => $sender3->id,
+                                'thread_id' => $thread->id]);
 
         $usermail1 = create('App\Common\Model\UserMail', 
                                     ['sender_id' => $sender1->id,
@@ -123,7 +135,7 @@ class MailsFeatureTest extends TestCase
             ->post(route(RouteConsts::$MAILS_MAILBOX), $payload, [
                 'AUTHORIZATION' => 'Bearer ' . $token
             ])->assertJson([
-                'nbMails' => 3
+                'nbItems' => 3
             ]);
     }
 
@@ -134,10 +146,21 @@ class MailsFeatureTest extends TestCase
         $sender1 = create('App\Common\Model\User');
         $sender2 = create('App\Common\Model\User');
         $sender3 = create('App\Common\Model\User');
+
+        $thread = create('App\Common\Model\Thread');
         
-        $mail1 = create('App\Common\Model\Mail', ['sender_id' => $sender1->id, 'title' => 'Title 1']);
-        $mail2 = create('App\Common\Model\Mail', ['sender_id' => $sender2->id, 'title' => 'Title 2']);
-        $mail3 = create('App\Common\Model\Mail', ['sender_id' => $sender3->id, 'title' => 'Title 3']);
+        $mail1 = create('App\Common\Model\Mail', 
+                                ['sender_id' => $sender1->id,
+                                'thread_id' => $thread->id,
+                                'title' => 'Title 1']);
+        $mail2 = create('App\Common\Model\Mail', 
+                                ['sender_id' => $sender2->id,
+                                'thread_id' => $thread->id,
+                                'title' => 'Title 2']);
+        $mail3 = create('App\Common\Model\Mail', 
+                                ['sender_id' => $sender3->id,
+                                'thread_id' => $thread->id,
+                                'title' => 'Title 3']);
 
         $usermail1 = create('App\Common\Model\UserMail', 
                                     ['sender_id' => $sender1->id,
@@ -183,7 +206,7 @@ class MailsFeatureTest extends TestCase
             ->post(route(RouteConsts::$MAILS_MAILBOX), $payload, [
                 'AUTHORIZATION' => 'Bearer ' . $token
             ])->assertJson([
-                'nbMails' => 2
+                'nbItems' => 2
             ]);
     }
 
@@ -195,17 +218,22 @@ class MailsFeatureTest extends TestCase
         $sender2 = create('App\Common\Model\User');
         $sender3 = create('App\Common\Model\User');
         
+        $thread = create('App\Common\Model\Thread');
+
         $mail1 = create('App\Common\Model\Mail', 
                             ['sender_id' => $sender1->id, 
                             'title' => 'Title 1',
+                            'thread_id' => $thread->id,
                             'sent_date' => '2017-06-20 08:20:36']);
         $mail2 = create('App\Common\Model\Mail', 
                             ['sender_id' => $sender2->id, 
                             'title' => 'Title 2',
+                            'thread_id' => $thread->id,
                             'sent_date' => '2017-06-20 19:12:45']);
         $mail3 = create('App\Common\Model\Mail', 
                             ['sender_id' => $sender3->id, 
                             'title' => 'Title 3',
+                            'thread_id' => $thread->id,
                             'sent_date' => '2017-07-05 13:20:00']);
 
         $usermail1 = create('App\Common\Model\UserMail', 
@@ -251,7 +279,7 @@ class MailsFeatureTest extends TestCase
             ->post(route(RouteConsts::$MAILS_MAILBOX), $payload, [
                 'AUTHORIZATION' => 'Bearer ' . $token
             ])->assertJson([
-                'nbMails' => 2
+                'nbItems' => 2
             ]);
     }
 
@@ -263,17 +291,22 @@ class MailsFeatureTest extends TestCase
         $sender2 = create('App\Common\Model\User');
         $sender3 = create('App\Common\Model\User');
         
+        $thread = create('App\Common\Model\Thread');
+
         $mail1 = create('App\Common\Model\Mail', 
                             ['sender_id' => $sender1->id, 
                             'title' => 'Title 1',
+                            'thread_id' => $thread->id,
                             'sent_date' => '2017-06-20 08:20:36']);
         $mail2 = create('App\Common\Model\Mail', 
                             ['sender_id' => $sender2->id, 
                             'title' => 'Title 2',
+                            'thread_id' => $thread->id,
                             'sent_date' => '2017-06-20 19:12:45']);
         $mail3 = create('App\Common\Model\Mail', 
                             ['sender_id' => $sender3->id, 
                             'title' => 'Title 3',
+                            'thread_id' => $thread->id,
                             'sent_date' => '2017-07-05 13:20:00']);
 
         $usermail1 = create('App\Common\Model\UserMail', 
@@ -319,7 +352,7 @@ class MailsFeatureTest extends TestCase
             ->post(route(RouteConsts::$MAILS_MAILBOX), $payload, [
                 'AUTHORIZATION' => 'Bearer ' . $token
             ])->assertJson([
-                'nbMails' => 1
+                'nbItems' => 1
             ]);
     }
 
@@ -331,17 +364,22 @@ class MailsFeatureTest extends TestCase
         $sender2 = create('App\Common\Model\User');
         $sender3 = create('App\Common\Model\User');
         
+        $thread = create('App\Common\Model\Thread');
+
         $mail1 = create('App\Common\Model\Mail', 
                             ['sender_id' => $sender1->id, 
                             'title' => 'Title 1',
+                            'thread_id' => $thread->id,
                             'sent_date' => '2017-06-20 08:20:36']);
         $mail2 = create('App\Common\Model\Mail', 
                             ['sender_id' => $sender2->id, 
                             'title' => 'Title 2',
+                            'thread_id' => $thread->id,
                             'sent_date' => '2017-06-20 19:12:45']);
         $mail3 = create('App\Common\Model\Mail', 
                             ['sender_id' => $sender3->id, 
                             'title' => 'Title 3',
+                            'thread_id' => $thread->id,
                             'sent_date' => '2017-07-05 13:20:00']);
 
         $usermail1 = create('App\Common\Model\UserMail', 
@@ -383,7 +421,7 @@ class MailsFeatureTest extends TestCase
             ->post(route(RouteConsts::$MAILS_MAILBOX), $payload, [
                 'AUTHORIZATION' => 'Bearer ' . $token
             ])->assertJson([
-                'nbMails' => 1
+                'nbItems' => 1
             ]);
     }
 }
